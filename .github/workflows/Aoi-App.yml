@@ -22,9 +22,13 @@ jobs:
       - name: 🔎𝓒𝓱𝓮𝓬𝓴 𝓢𝓸𝓾𝓻𝓬𝓮
         uses: actions/checkout@v6
 
-      - name: 📚 Tạo file zip
-        run: |
-          zip -r Aoi-Packs.zip assets pack.mcmeta pack.png || true
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - run: flutter pub get
+
+      - run: flutter build apk --release
           
       # Đóng gói file .jar
       - name: 📦 𝓤𝓹𝓵𝓸𝓪𝓻𝓭 𝓳𝓪𝓻
@@ -32,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: Resource-Packs
-          path: Aoi-Packs.zip
+          path: build/app/outputs/flutter-apk/app-release.apk
 
       # Tự động dọn dẹp Workflows Runs 【 5 Runs 】
       - name: ♻️𝐎𝐋𝐃 𝐖𝐎𝐑𝐊𝐅𝐋𝐎𝐖𝐒
