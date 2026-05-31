@@ -1,0 +1,11 @@
+[
+  {
+    "id": 1,
+    "name": "Galaxy Dream",
+    "layers": [
+      "assets/images/sample_bg.webp",
+      "assets/images/sample_mid.webp",
+      "assets/images/sample_front.webp"
+    ]
+  }
+] 
