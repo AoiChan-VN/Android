@@ -31,26 +31,39 @@ jobs:
         run: |
           sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
-      # 5. Tải Godot Engine & Templates bằng Action chuyên dụng (Tránh tuyệt đối lỗi gãy URL)
-      - name: Install Godot Engine and Templates
-        uses: firebelley/godot-export@v6.0.0
-        with:
-          godot_version: "4.6"
-          godot_status: "stable"
-          download_templates: true
-          # Bước này chỉ dùng để cài đặt môi trường Godot chuẩn vào hệ thống
-          export_as_debug: false
-          godot_executable_download_url: "https://tuxfamily.org"
-          godot_export_templates_download_url: "https://tuxfamily.org"
+      # 5. Tải trực tiếp Godot Engine & Templates bằng env an toàn độc lập
+      - name: Download Godot Engine and Templates
+        env:
+          URL_ENGINE: "https://github.com"
+          URL_TEMPLATES: "https://github.com"
+        run: |
+          # Tạo sẵn thư mục lưu trữ template hệ thống của Godot 4
+          mkdir -p ~/.local/share/godot/export_templates/4.6.stable
+          
+          # Tải và giải nén Godot Editor Engine
+          curl -L -o godot.zip "$URL_ENGINE"
+          unzip godot.zip
+          mv Godot_v4.6-stable_linux.x86_64 godot
+          chmod +x godot
+          
+          # Tải và giải nén Export Templates
+          curl -L -o templates.tpz "$URL_TEMPLATES"
+          unzip templates.tpz -d /tmp/templates
+          
+          # Di chuyển mẫu vào đúng vị trí cấu hình toàn cục
+          mv /tmp/templates/templates/* ~/.local/share/godot/export_templates/4.6.stable/
+          
+          # Dọn dẹp bộ nhớ tạm
+          rm -rf /tmp/templates templates.tpz godot.zip
 
-      # 6. Tạo thư mục chứa file xuất bản
+      # 6. Tạo thư mục chứa sản phẩm xuất bản đầu ra
       - name: Create Build Directory
         run: mkdir -p build/android
 
-      # 7. Thực hiện xuất file APK bằng lệnh CLI độc lập
+      # 7. Thực hiện xuất file APK bằng lệnh CLI nguyên bản
       - name: Export APK via Godot CLI
         run: |
-          /root/.local/share/godot/godot --headless --verbose --export-release "Android" build/android/game-release.apk
+          ./godot --headless --verbose --export-release "Android" build/android/game-release.apk
 
       # 8. Đẩy file APK lên GitHub Artifacts để bạn tải về
       - name: Upload APK Artifact
