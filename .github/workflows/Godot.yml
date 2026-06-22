@@ -1,90 +1,83 @@
-name: "Android Production Build"
+name: Build Android APK
 
 on:
+  workflow_dispatch:
   push:
-    branches: [ "main", "develop" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-  build-android:
-    runs-on: ubuntu-22.04
-    name: Export Android APK
-    
+  build:
+    runs-on: ubuntu-latest
+
     env:
-      EXPORT_NAME: "mobile-3d-minecraft"
+      GODOT_VERSION: 4.6.3
 
     steps:
-      - name: Checkout Source Code
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: 'recursive'
 
-      - name: Set up Java Development Kit
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Cache Godot Editor and Export Templates
-        id: cache-godot
+      - name: Cache Godot imports
         uses: actions/cache@v4
         with:
           path: |
-            ~/.local/share/godot/
-            /usr/local/bin/godot
-          key: ${{ runner.os }}-godot-4.3-stable
+            .godot
+            .import
+          key: godot-${{ hashFiles('project.godot') }}
+          restore-keys: |
+            godot-
 
-      - name: Download Godot Editor and Export Templates
-        if: steps.cache-godot.outputs.cache-hit != 'true'
+      - name: Install dependencies
         run: |
-          # Thiết lập link tải tĩnh tuyệt đối tránh lỗi biên dịch chuỗi trên GitHub Runner
-          URL_EDITOR="https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip"
-          URL_TEMPLATES="https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_export_templates.tpz"
-          
-          # Thực hiện tải với cờ kiểm tra kết nối chặt chẽ
-          wget --tries=3 --connect-timeout=20 -q "$URL_EDITOR"
-          wget --tries=3 --connect-timeout=20 -q "$URL_TEMPLATES"
-          
-          # Giải nén phân hệ Godot Editor CLI
-          unzip -q Godot_v4.3-stable_linux.x86_64.zip
-          sudo mv Godot_v4.3-stable_linux.x86_64 /usr/local/bin/godot
-          sudo chmod +x /usr/local/bin/godot
-          
-          # Khởi tạo và thiết lập Export Templates cho hệ thống
-          mkdir -p ~/.local/share/godot/export_templates/4.3.stable
-          unzip -q Godot_v4.3-stable_export_templates.tpz
-          mv templates/* ~/.local/share/godot/export_templates/4.3.stable/
-          
-          # Dọn dẹp lưu trữ tạm
-          rm -f Godot_v4.3-stable_linux.x86_64.zip
-          rm -f Godot_v4.3-stable_export_templates.tpz
+          sudo apt-get update
+          sudo apt-get install -y wget unzip openjdk-17-jdk
 
-      - name: Configure Android SDK Path for Godot
+      - name: Download Godot
         run: |
-          mkdir -p ~/.config/godot
-          echo '[settings]' > ~/.config/godot/editor_settings-4.tres
-          echo 'export/android/android_sdk_path = "'"$ANDROID_HOME"'"' >> ~/.config/godot/editor_settings-4.tres
-          echo 'export/android/shutdown_adb_on_exit = true' >> ~/.config/godot/editor_settings-4.tres
+          wget -q \
+          https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}_stable_linux.x86_64.zip \
+          -O godot.zip
 
-      - name: Create Export Directories
+          unzip -q godot.zip
+
+          mv Godot_v${GODOT_VERSION}_stable_linux.x86_64 godot
+          chmod +x godot
+
+      - name: Install Export Templates
+        run: |
+          wget -q \
+          https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}_stable_export_templates.tpz \
+          -O templates.tpz
+
+          mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+
+          unzip -q templates.tpz \
+            -d ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+
+      - name: Verify export preset
+        run: |
+          if [ ! -f export_presets.cfg ]; then
+            echo "export_presets.cfg not found!"
+            exit 1
+          fi
+
+      - name: Create build directory
         run: mkdir -p build/android
 
-      - name: Export Release APK via Godot CLI
+      - name: Export APK
         run: |
-          godot --headless --export-release "Android" build/android/${{ env.EXPORT_NAME }}.apk
+          ./godot \
+            --headless \
+            --path . \
+            --export-debug "Android" \
+            build/android/app.apk
 
-      - name: Upload Build Artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: android-release-apk
-          path: build/android/${{ env.EXPORT_NAME }}.apk
-          if-no-files-found: error
-          retention-days: 1
-
+          name: APK
+          path: build/android/app.apk
+          
       # Tự động dọn dẹp Workflows Runs 【 5 Runs 】
       - name: ♻️𝐎𝐋𝐃 𝐖𝐎𝐑𝐊𝐅𝐋𝐎𝐖𝐒
         run: |
