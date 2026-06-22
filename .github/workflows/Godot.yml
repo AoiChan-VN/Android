@@ -2,72 +2,57 @@ name: "Godot 4.6 Android Export"
 
 on:
   push:
-    branches: [ "main", "master" ] # Chạy khi push vào nhánh chính
+    branches: [ "main", "master" ]
   pull_request:
     branches: [ "main", "master" ]
-  workflow_dispatch: # Cho phép bấm chạy thủ công trên GitHub UI
-
-env:
-  GODOT_VERSION: "4.6"
-  GODOT_STATUS: "stable" # Bản phát hành chính thức (stable)
-  EXPORT_NAME: "Android" # Phải trùng khớp với tên Preset đặt trong Godot
+  workflow_dispatch:
 
 jobs:
   export-android:
     runs-on: ubuntu-latest
     steps:
-      # 1. Lấy mã nguồn từ kho lưu trữ
+      # 1. Lấy mã nguồn dự án
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      # 2. Thiết lập môi trường Java (Bắt buộc để build Android)
+      # 2. Cài đặt Java JDK 17
       - name: Setup Java JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # 3. Thiết lập Android SDK cần thiết
+      # 3. Cài đặt Android SDK
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      # 4. Tải và cài đặt các thành phần SDK cần thiết cho Godot
-      - name: Install Android SDK Platform-Tools & Build-Tools
+      # 4. Cài đặt các công cụ Android Build-Tools cần thiết
+      - name: Install Android Build Tools
         run: |
           sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
-      # 5. Tải xuống Godot Engine Headless Linux & Export Templates từ Mirror ổn định
-      - name: Download Godot Engine and Templates
-        run: |
-          # Tạo sẵn thư mục chứa template cho bản 4.6-stable
-          mkdir -p ~/.local/share/godot/export_templates/4.6.stable
-          
-          # Tải Godot Editor (Linux) bằng link bọc nháy kép chống lỗi chuỗi
-          wget -O godot.zip "https://github.com"
-          unzip godot.zip
-          mv Godot_v4.6-stable_linux.x86_64 godot
-          chmod +x godot
-          
-          # Tải Export Templates
-          wget -O templates.tpz "https://github.com"
-          unzip templates.tpz -d /tmp/templates
-          
-          # Di chuyển templates vào đúng thư mục cấu hình của Godot
-          mv /tmp/templates/templates/* ~/.local/share/godot/export_templates/4.6.stable/
-          
-          # Dọn dẹp tệp tin rác
-          rm -rf /tmp/templates templates.tpz godot.zip
+      # 5. Tải Godot Engine & Templates bằng Action chuyên dụng (Tránh tuyệt đối lỗi gãy URL)
+      - name: Install Godot Engine and Templates
+        uses: firebelley/godot-export@v6.0.0
+        with:
+          godot_version: "4.6"
+          godot_status: "stable"
+          download_templates: true
+          # Bước này chỉ dùng để cài đặt môi trường Godot chuẩn vào hệ thống
+          export_as_debug: false
+          godot_executable_download_url: "https://tuxfamily.org"
+          godot_export_templates_download_url: "https://tuxfamily.org"
 
-      # 6. Tạo thư mục chứa sản phẩm đầu ra
+      # 6. Tạo thư mục chứa file xuất bản
       - name: Create Build Directory
-        run: mkdir -v -p build/android
+        run: mkdir -p build/android
 
-      # 7. Chạy Godot CLI để xuất file APK Release (Headless Mode)
+      # 7. Thực hiện xuất file APK bằng lệnh CLI độc lập
       - name: Export APK via Godot CLI
         run: |
-          ./godot --headless --verbose --export-release "${{ env.EXPORT_NAME }}" build/android/game-release.apk
+          /root/.local/share/godot/godot --headless --verbose --export-release "Android" build/android/game-release.apk
 
-      # 8. Đẩy tệp APK lên GitHub Artifacts để tải về
+      # 8. Đẩy file APK lên GitHub Artifacts để bạn tải về
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
