@@ -5,9 +5,10 @@ class_name BlockInteraction
 const INTERACTION_DISTANCE: float = 5.0
 
 @export var world_manager: Node3D = null
+@export var ui_manager: CanvasLayer = null
 
 func _unhandled_input(event: InputEvent) -> void:
-	if world_manager == null:
+	if world_manager == null or ui_manager == null:
 		return
 		
 	# Phân tách hành vi tương tác trên UI Mobile thông qua cử chỉ chạm màn hình nhanh (Tap)
@@ -17,9 +18,25 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 		# Chỉ kích hoạt tương tác nếu người dùng tap vào nửa phải màn hình (tránh trùng vùng Joystick trái)
 		if event.position.x >= half_width:
-			# Mặc định trên thiết bị di động: Tap nhanh tương đương với hành động Phá Block
-			# Nếu bạn có nút bấm đặt block riêng trên UI, bạn sẽ gọi trực tiếp hàm execute_place_block()
-			execute_destroy_block()
+			
+			# Thuật toán chống chạm xuyên thấu: Kiểm tra nếu ngón tay đè lên các nút UI hệ thống
+			var jump_btn: Button = ui_manager.jump_button if "jump_button" in ui_manager else null
+			var mode_btn: Button = ui_manager.mode_button if "mode_button" in ui_manager else null
+			var hb_container: HBoxContainer = ui_manager.hotbar if "hotbar" in ui_manager else null
+			
+			if (jump_btn and jump_btn.get_global_rect().has_point(event.position)) or \
+			   (mode_btn and mode_btn.get_global_rect().has_point(event.position)) or \
+			   (hb_container and hb_container.get_global_rect().has_point(event.position)):
+				return # Bỏ qua hoàn toàn việc bắn tia hình học nếu chạm trúng UI
+				
+			# Phân tách hành vi xử lý dựa trên chế độ đang bật từ UI Manager
+			var is_place_mode: bool = ui_manager.is_place_mode if "is_place_mode" in ui_manager else false
+			var selected_block_type: int = ui_manager.selected_block_type if "selected_block_type" in ui_manager else 1
+			
+			if is_place_mode:
+				execute_place_block(selected_block_type)
+			else:
+				execute_destroy_block()
 
 # Hàm xử lý logic bắn tia vật lý và phá hủy Block
 func execute_destroy_block() -> void:
