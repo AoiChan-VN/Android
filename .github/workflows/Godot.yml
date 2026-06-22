@@ -36,25 +36,27 @@ jobs:
         run: |
           sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
-      # 5. Tải xuống Godot Engine Headless Linux & Export Templates
+      # 5. Tải xuống Godot Engine Headless Linux & Export Templates từ Mirror ổn định
       - name: Download Godot Engine and Templates
         run: |
-          # Tạo sẵn thư mục chứa template cho bản 4.6.stable
+          # Tạo sẵn thư mục chứa template cho bản 4.6-stable
           mkdir -p ~/.local/share/godot/export_templates/4.6.stable
           
-          # Tải trực tiếp Godot Editor bằng link cố định
-          wget https://tuxfamily.org
-          unzip Godot_v4.6-stable_linux.x86_64.zip
+          # Tải Godot Editor (Linux) bằng link bọc nháy kép chống lỗi chuỗi
+          wget -O godot.zip "https://github.com"
+          unzip godot.zip
           mv Godot_v4.6-stable_linux.x86_64 godot
           chmod +x godot
           
-          # Tải trực tiếp Export Templates bằng link cố định
-          wget https://tuxfamily.org
-          unzip Godot_v4.6-stable_export_templates.tpz -d /tmp/templates
+          # Tải Export Templates
+          wget -O templates.tpz "https://github.com"
+          unzip templates.tpz -d /tmp/templates
           
-          # Di chuyển templates vào thư mục đích
+          # Di chuyển templates vào đúng thư mục cấu hình của Godot
           mv /tmp/templates/templates/* ~/.local/share/godot/export_templates/4.6.stable/
-          rm -rf /tmp/templates Godot_v4.6-stable_export_templates.tpz Godot_v4.6-stable_linux.x86_64.zip
+          
+          # Dọn dẹp tệp tin rác
+          rm -rf /tmp/templates templates.tpz godot.zip
 
       # 6. Tạo thư mục chứa sản phẩm đầu ra
       - name: Create Build Directory
