@@ -39,22 +39,22 @@ jobs:
       # 5. Tải xuống Godot Engine Headless Linux & Export Templates
       - name: Download Godot Engine and Templates
         run: |
-          # Tạo thư mục tạm lưu trữ (Sử dụng đúng cú pháp biến môi trường Linux)
-          mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.${GODOT_STATUS}
+          # Tạo sẵn thư mục chứa template cho bản 4.6.stable
+          mkdir -p ~/.local/share/godot/export_templates/4.6.stable
           
-          # Tải Godot Editor (Linux Headless)
-          wget https://tuxfamily.org{GODOT_VERSION}/Godot_v${GODOT_VERSION}-${GODOT_STATUS}_linux.x86_64.zip
-          unzip Godot_v${GODOT_VERSION}-${GODOT_STATUS}_linux.x86_64.zip
-          mv Godot_v${GODOT_VERSION}-${GODOT_STATUS}_linux.x86_64 godot
+          # Tải trực tiếp Godot Editor bằng link cố định
+          wget https://tuxfamily.org
+          unzip Godot_v4.6-stable_linux.x86_64.zip
+          mv Godot_v4.6-stable_linux.x86_64 godot
           chmod +x godot
           
-          # Tải Export Templates
-          wget https://tuxfamily.org{GODOT_VERSION}/Godot_v${GODOT_VERSION}-${GODOT_STATUS}_export_templates.tpz
-          unzip Godot_v${GODOT_VERSION}-${GODOT_STATUS}_export_templates.tpz -d /tmp/templates
+          # Tải trực tiếp Export Templates bằng link cố định
+          wget https://tuxfamily.org
+          unzip Godot_v4.6-stable_export_templates.tpz -d /tmp/templates
           
-          # Di chuyển templates vào đúng thư mục cấu hình của Godot 4
-          mv /tmp/templates/templates/* ~/.local/share/godot/export_templates/${GODOT_VERSION}.${GODOT_STATUS}/
-          rm -rf /tmp/templates Godot_v${GODOT_VERSION}-${GODOT_STATUS}_export_templates.tpz Godot_v${GODOT_VERSION}-${GODOT_STATUS}_linux.x86_64.zip
+          # Di chuyển templates vào thư mục đích
+          mv /tmp/templates/templates/* ~/.local/share/godot/export_templates/4.6.stable/
+          rm -rf /tmp/templates Godot_v4.6-stable_export_templates.tpz Godot_v4.6-stable_linux.x86_64.zip
 
       # 6. Tạo thư mục chứa sản phẩm đầu ra
       - name: Create Build Directory
