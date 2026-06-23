@@ -93,4 +93,28 @@ jobs:
         with:
           name: godot-android-apk
           path: build/android/game-release.apk
-          retention-days: 7
+
+      # Tự động dọn dẹp Workflows Runs 【 5 Runs 】
+      - name: ♻️𝐎𝐋𝐃 𝐖𝐎𝐑𝐊𝐅𝐋𝐎𝐖𝐒
+        run: |
+          gh api repos/${{ github.repository }}/actions/runs \
+            --paginate \
+            --jq '.workflow_runs | sort_by(.created_at) | reverse | .[1:] | map(select(.status=="completed")) | .[].id' \
+            | while read run; do
+                echo "🗑️ đã xóa $run"
+                gh api repos/${{ github.repository }}/actions/runs/$run -X DELETE
+              done
+        env:
+          GH_TOKEN: ${{ secrets.AOI_RESOURCES }}
+
+      - name: ♻️𝐎𝐋𝐃 𝐂𝐀𝐂𝐇𝐄
+        run: |
+          gh cache list --json id,createdAt \
+            | jq 'sort_by(.createdAt) | reverse | .[1:] | .[].id' \
+            | while read id; do
+                echo "🗑️ đã xóa $id"
+                gh cache delete "$id"
+              done
+        env:
+          GH_TOKEN: ${{ secrets.AOI_RESOURCES }}
+
