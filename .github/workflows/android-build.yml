@@ -25,17 +25,19 @@ jobs:
 
       - name: Download Godot Engine & Export Templates
         run: |
-          # Tải Godot Headless (phiên bản chạy dòng lệnh trên Linux)
-          wget https://github.com
+          # Tải Godot Engine bằng curl (tự động đi theo link redirect -L)
+          curl -LO https://github.com
           unzip Godot_v4.6.3-stable_linux.x86_64.zip
           mv Godot_v4.6.3-stable_linux.x86_64 godot
           chmod +x godot
 
-          # Tải và cấu hình Export Templates
-          wget https://github.com
+          # Tải và cấu hình Export Templates cho Android
+          curl -LO https://github.com
           mkdir -p ~/.local/share/godot/export_templates/4.6.3.stable
           unzip Godot_v4.6.3-stable_export_templates.tpz -d templates_extracted
           mv templates_extracted/templates/* ~/.local/share/godot/export_templates/4.6.3.stable/
+          
+          # Dọn dẹp các file rác sau khi giải nén thành công
           rm -rf templates_extracted Godot_v4.6.3-stable_export_templates.tpz Godot_v4.6.3-stable_linux.x86_64.zip
 
       - name: Prepare Export Directories
