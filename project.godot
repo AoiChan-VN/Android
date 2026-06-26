@@ -4,7 +4,7 @@ config_version=5
 
 config/name="Godot Mobile Game"
 config/tags=PackedStringArray("mobile")
-config/features=PackedStringArray("4.6", "Mobile", "Forward Plus")
+config/features=PackedStringArray("4.7", "Mobile", "Forward Plus")
 config/icon="res://icon.svg"
 
 [display]
