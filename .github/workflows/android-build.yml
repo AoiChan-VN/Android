@@ -1,4 +1,4 @@
-name: "Build Godot 4.6.3 Android APK"
+name: "【Build】〈Godot 4.7〉"
 
 on:
   push:
