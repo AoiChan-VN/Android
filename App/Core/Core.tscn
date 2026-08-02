@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://App/Core/Core.gd" id="1_core"]
+
+[node name="Core" type="Node"]
+script = ExtResource("1_core")
+auto_start = true
+console_output = true
+validate_engine = true
+validate_renderer = true 
