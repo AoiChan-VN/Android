@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://App/Features/Features.gd" id="1_features"]
+
+[node name="Features" type="Node"]
+script = ExtResource("1_features")
+auto_start = true
+scan_children = true
+start_features = true
+stop_on_exit = true
+retry_on_dependency = true
+strict_start = false
+console_output = true
+free_on_remove = false
+validate_root = true 
