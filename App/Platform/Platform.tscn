@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://App/Platform/Platform.gd" id="1_platform"]
+
+[node name="Platform" type="Node"]
+script = ExtResource("1_platform")
+auto_start = true
+console_output = true
+detect_os = true
+detect_display = true
+detect_renderer = true
+detect_hardware = true 
