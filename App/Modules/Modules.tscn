@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://App/Modules/Modules.gd" id="1_modules"]
+
+[node name="Modules" type="Node"]
+script = ExtResource("1_modules")
+auto_start = true
+auto_register_children = true
+start_registered_modules = true
+stop_modules_on_shutdown = true
+console_output = true
+free_on_remove = false
+validate_root = true 
