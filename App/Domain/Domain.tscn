@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://App/Domain/Domain.gd" id="1_domain"]
+
+[node name="Domain" type="Node"]
+script = ExtResource("1_domain")
+auto_start = true
+activate_entities = true
+deactivate_on_stop = true
+allow_replace = false
+clear_events_on_stop = false
+console_output = true
+validate_root = true
