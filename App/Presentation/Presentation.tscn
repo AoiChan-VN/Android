@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://App/Presentation/Presentation.gd" id="1_presentation"]
+
+[node name="Presentation" type="Node"]
+script = ExtResource("1_presentation")
+auto_start = true
+scan_children = true
+open_auto_views = true
+close_on_exit = true
+strict_open = false
+console_output = true
+free_on_remove = false
+validate_root = true 
