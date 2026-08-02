@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://App/Services/Services.gd" id="1_services"]
+
+[node name="Services" type="Node"]
+script = ExtResource("1_services")
+auto_start = true
+auto_register_children = true
+start_registered_services = true
+stop_services_on_shutdown = true
+console_output = true
+free_on_remove = false
+validate_root = true 
