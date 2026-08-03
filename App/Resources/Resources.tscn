@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://App/Resources/Resources.gd" id="1_resources"]
+
+[node name="Resources" type="Node"]
+script = ExtResource("1_resources")
+auto_start = true
+validate_paths = true
+keep_loaded = true
+scan_on_start = false
+console_output = true
+clear_on_stop = false
+validate_root = true 
