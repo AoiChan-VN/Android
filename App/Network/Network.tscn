@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://App/Network/Network.gd" id="1_network"]
+
+[node name="Network" type="Node"]
+script = ExtResource("1_network")
+auto_start = true
+auto_connect = false
+auto_mode = 0
+transport = 0
+address = "127.0.0.1"
+bind_address = "*"
+port = 9000
+max_clients = 32
+console_output = true
+stop_on_exit = true
+validate_root = true
+validate_port = true 
