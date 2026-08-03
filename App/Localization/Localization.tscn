@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://App/Localization/Localization.gd" id="1_localization"]
+
+[node name="Localization" type="Node"]
+script = ExtResource("1_localization")
+auto_start = true
+auto_detect_locale = true
+auto_use_fallback = true
+clear_on_stop = false
+console_output = true
+default_locale = "en"
+fallback_locale = "en"
+startup_locale = ""
+validate_root = true 
