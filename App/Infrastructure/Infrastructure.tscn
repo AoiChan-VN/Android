@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://App/Infrastructure/Infrastructure.gd" id="1_infrastructure"]
+
+[node name="Infrastructure" type="Node"]
+script = ExtResource("1_infrastructure")
+auto_start = true
+scan_children = true
+start_registered_adapters = true
+stop_on_exit = true
+strict_start = false
+console_output = true
+free_on_remove = false
+validate_root = true 
