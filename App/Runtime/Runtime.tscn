@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://App/Runtime/Runtime.gd" id="1_runtime"]
-
-[node name="Runtime" type="Node"]
-script = ExtResource("1_runtime")
-auto_start = true
-process_enabled = true
-console_output = true 
