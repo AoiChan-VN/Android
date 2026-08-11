@@ -1,0 +1,1432 @@
+# GODOT ARPG PROJECT — MASTER DEVELOPMENT PROMPT
+
+---
+
+# 0. ENGINE / DEVELOPMENT ENVIRONMENT
+
+* Godot Engine Editor **v4.7.1 Stable Official a13da4feb**
+* Programming Language: **GDScript**
+* Renderer: **Compatibility**
+* Graphics API target: **OpenGL 3.0**
+* Development priority: **Mobile First**
+* PC/Desktop: **Platform mở rộng hỗ trợ thêm**
+* Asset Creation: **BlockBench + Godot**
+* Không sử dụng:
+
+  * Unity
+  * Unreal Engine
+  * Các Game Engine khác
+* Toàn bộ game phải được xây dựng hoàn toàn bằng:
+
+  * Godot Engine v4.7.1 Stable Official a13da4feb
+  * GDScript
+  * BlockBench
+
+---
+
+# 1. GAME TYPE
+
+Game là:
+
+* **3D ARPG**
+* **Third-Person**
+* **Single Player**
+* Mobile First
+* PC/Desktop là platform mở rộng
+* Gameplay tập trung vào:
+
+  * Combat
+  * Character
+  * Equipment
+  * Weapons
+  * Items
+  * VFX
+  * SFX
+  * BGM
+  * World / Environment
+  * Animation
+  * Gameplay progression
+
+Game **KHÔNG PHẢI**:
+
+* Multiplayer
+* Online Multiplayer
+* MMO
+* Server-based Game
+* Cross-server Game
+* Game cần Game Server để gameplay hoạt động
+
+Người chơi phải có thể chơi game **offline**.
+
+Internet chỉ được sử dụng cho các chức năng liên quan đến:
+
+* Kiểm tra phiên bản
+* Update
+* Hot Update
+* Download Resource Packages
+* Kiểm tra Manifest
+* Download các resource mà người dùng chủ động yêu cầu
+
+Gameplay Single Player không được phụ thuộc vào Internet.
+
+---
+
+# 2. GAMEPLAY / VISUAL DIRECTION
+
+GameLoop mang phong cách:
+
+> **Honkai Impact-style combat presentation + Minecraft-inspired visual language + Detailed Humanoid Character + ARPG Third-Person**
+
+Mục tiêu là tạo ra một phong cách riêng:
+
+> **Nhân vật cùng vật phẩm mang dáng vẻ Minecraft tạo nên phong cách mới lạ và độc đáo, nhưng không làm nhân vật theo kiểu Minecraft đơn giản.**
+
+Combat cần có cảm giác:
+
+* Mạnh
+* Nhanh
+* Đẹp
+* Có impact
+* Có camera feedback
+* Có VFX
+* Có SFX
+* Có BGM synchronization
+* Có weapon trail
+* Có skill effects
+* Có hit effects
+* Có elemental / special effects nếu gameplay yêu cầu
+
+Phong cách VFX/SFX/BGM là một phần quan trọng của gameplay presentation.
+
+---
+
+# 3. CHARACTER SYSTEM
+
+Nhân vật **KHÔNG được thiết kế như Minecraft Character**.
+
+Không được dùng mô hình humanoid đơn giản chỉ gồm các khối cơ bản để thay thế cho một nhân vật đầy đủ.
+
+Character phải có cấu trúc humanoid đầy đủ chi tiết.
+
+Bao gồm:
+
+* Head
+* Face
+* Hair
+* Neck
+* Torso
+* Shoulder
+* Upper Arm
+* Forearm
+* Hand
+* Individual Fingers
+* Pelvis
+* Thigh
+* Calf
+* Foot
+* Toes nếu cần thiết cho animation/gameplay
+
+Đặc biệt:
+
+> **Bàn tay phải có ngón tay đầy đủ, không phải một khối bàn tay đơn giản.**
+
+Bàn chân cũng phải có cấu trúc phù hợp với humanoid character.
+
+Character phải hỗ trợ:
+
+* Rig
+* Skeleton
+* Animation
+* Equipment
+* Armor
+* Weapon
+* Item
+* Clothing
+* Accessories
+* VFX attachment
+* Combat animation
+
+---
+
+# 4. CHARACTER CUSTOMIZATION / EQUIPMENT
+
+Character phải hỗ trợ hệ thống thay đổi trang bị tương tự mô hình game hiện đại như PUBG về mặt **equipment modularity**, nhưng không sao chép nội dung hay thiết kế của PUBG.
+
+Có thể thay đổi:
+
+* Head
+* Helmet
+* Hair
+* Face-related equipment
+* Armor
+* Torso
+* Shoulder Armor
+* Gloves
+* Hands
+* Pants
+* Boots
+* Accessories
+* Back Equipment
+* Weapon
+* Shield
+* Mythological Equipment
+* Divine Armor
+* Special Equipment
+
+Ví dụ:
+
+```text
+Character
+│
+├── Body
+│
+├── Head
+├── Hair
+├── Face
+│
+├── Armor
+│   ├── Helmet
+│   ├── Chest
+│   ├── Shoulder
+│   ├── Gloves
+│   ├── Pants
+│   └── Boots
+│
+├── Accessories
+│
+├── Weapon
+│
+└── Special Equipment
+```
+
+Equipment phải được thiết kế **modular**, không hard-code trực tiếp vào Character.
+
+---
+
+# 5. WEAPON / ITEM SYSTEM
+
+Game phải hỗ trợ:
+
+* Weapons
+* Armor
+* Equipment
+* Items
+* Mythological Items
+* Divine Weapons
+* Divine Armor
+* Special Items
+* Consumables
+* Quest Items
+* Gameplay Items
+* Cosmetic/Visual Items nếu có
+
+Mỗi Item/Weapon phải có:
+
+* Unique ID
+* Definition
+* Metadata
+* Stats nếu cần
+* Equipment Slot
+* Gameplay Rules
+* Ownership State
+* Resource References
+* Quality Resource References
+* VFX References
+* SFX References
+* Animation References
+
+Item Definition phải tách khỏi Asset Resource.
+
+---
+
+# 6. BLOCKBENCH
+
+BlockBench được sử dụng để tạo:
+
+* Entities
+* Characters
+* Weapons
+* Armor
+* Items
+* Props
+* Voxel Models
+* Environment Objects
+* Các model stylized khác
+
+BlockBench là một phần của Asset Creation Pipeline.
+
+Không được hiểu rằng toàn bộ Character phải biến thành Minecraft/Voxel Character.
+
+Phong cách voxel/block-based chỉ là **visual language**, không phải giới hạn cấu trúc humanoid.
+
+---
+
+# 7. DATA PACKAGE
+
+Project phải có hệ thống:
+
+```text
+Data Package
+```
+
+Data phải được tách khỏi visual assets khi phù hợp.
+
+Data có thể chứa:
+
+* Item Definitions
+* Character Definitions
+* Weapon Definitions
+* Armor Definitions
+* Stats
+* Gameplay Configuration
+* Resource Manifest References
+* Version Information
+* Package Metadata
+* Localization Data
+* Configuration Data
+
+Data Definition không được đồng nghĩa với ownership.
+
+---
+
+# 8. RESOURCE / SHADER PACKAGE
+
+Game phải có hệ thống Resource Package rõ ràng.
+
+Bao gồm:
+
+* Resource Package
+* Shader Package
+* Model Package
+* VFX Package
+* Audio Package
+* Texture Package
+* Optional Quality Packages
+* Default Resource Packages
+
+Các package phải có:
+
+* Version
+* Manifest
+* Dependency
+* Resource ID
+* Package ID
+* Hash/Integrity information
+* Compatibility information nếu cần
+
+---
+
+# 9. MODELS PACKAGE
+
+Models Package bao gồm:
+
+* Character Models
+* Entity Models
+* Weapon Models
+* Armor Models
+* Item Models
+* Environment Models
+* Props
+* Voxel Models
+* Other 3D Assets
+
+Model resource phải có khả năng được phân phối độc lập nếu kiến trúc yêu cầu.
+
+---
+
+# 10. VFX SYSTEM
+
+VFX phải hỗ trợ:
+
+* 3D VFX Mesh
+* 2D Texture
+* HDR Texture
+* Dynamic VFX
+* Particle Effects
+* Shader Effects
+* Weapon Trails
+* Hit Effects
+* Skill Effects
+* Ultimate Effects
+* Environmental Effects
+* Lighting Effects
+* Camera Effects nếu cần
+
+VFX phải được tối ưu cho Mobile First.
+
+Không được vì Compatibility/OpenGL 3.0 mà mặc định làm toàn bộ VFX xấu hoặc cực kỳ đơn giản.
+
+Phải có Quality Scaling.
+
+Ví dụ:
+
+```text
+VFX Quality
+├── Low
+├── Medium
+├── High
+└── Ultra
+```
+
+---
+
+# 11. AUDIO SYSTEM
+
+Game phải có:
+
+```text
+Audio
+├── BGM
+├── SFX
+└── Voice
+```
+
+Audio Resource cũng phải có khả năng được chia thành các package/quality phù hợp.
+
+Ví dụ:
+
+```text
+Audio
+├── Default
+├── Standard
+└── High
+```
+
+Người dùng có quyền lựa chọn tùy theo nhu cầu dung lượng thiết bị.
+
+---
+
+# 12. CLIENT - SERVICES
+
+Project có:
+
+```text
+Client
+└── Services
+```
+
+Services **KHÔNG PHẢI Game Server**.
+
+Services chỉ phục vụ Client Single Player.
+
+Các service có thể bao gồm:
+
+* Version Check
+* Update Check
+* Manifest Check
+* Package Manager
+* Resource Manager
+* Download Manager
+* Cache Manager
+* Integrity Verification
+* Hot Update
+* Storage Management
+* Configuration
+* Network Access cho update/resource
+
+Không được xây dựng kiến trúc Multiplayer Server nếu game không yêu cầu.
+
+---
+
+# 13. GITHUB HOT UPDATE
+
+Client phải có khả năng kiểm tra và tải phiên bản mới thông qua GitHub hoặc hệ thống phân phối tương ứng.
+
+Nguyên tắc:
+
+```text
+Launch
+    ↓
+Version Check
+    ↓
+New Version?
+    ├── NO
+    │    ↓
+    │  Continue
+    │
+    └── YES
+         ↓
+       Download
+         ↓
+       Verify
+         ↓
+       Update
+         ↓
+       Continue
+```
+
+Game phải có khả năng hoạt động offline nếu không có Internet.
+
+Nếu không thể kết nối Internet:
+
+```text
+Internet unavailable
+        ↓
+Skip Update Check
+        ↓
+Continue Offline
+```
+
+Không được biến việc kiểm tra update thành điều kiện bắt buộc để chơi Single Player.
+
+---
+
+# 14. RESOURCE DOWNLOAD SYSTEM
+
+Đây là yêu cầu **BẮT BUỘC**.
+
+Game phải phân biệt:
+
+### A. Game Update
+
+Là update phiên bản/code/system của game.
+
+### B. Resource Download
+
+Là việc người dùng tải thêm resource để cải thiện chất lượng hoặc bổ sung resource cần thiết.
+
+Hai khái niệm này **KHÔNG ĐƯỢC GỘP CHUNG**.
+
+---
+
+# 15. RESOURCE-ON-DEMAND
+
+Game phải hoạt động theo mô hình:
+
+> **Resource-on-Demand / Optional Resource Download**
+
+Không được bắt người chơi tải toàn bộ resource chất lượng cao ngay khi cài game.
+
+Game phải có một bộ:
+
+```text
+Default Resources
+```
+
+được nhà phát triển cung cấp sẵn để game có thể hoạt động.
+
+Ví dụ:
+
+```text
+Weapon
+├── Default Model
+├── Default Texture
+├── Default Material
+└── Default VFX
+```
+
+Người chơi có thể chơi bình thường bằng Default Resource.
+
+Nếu họ muốn chất lượng cao hơn, họ chủ động tải:
+
+```text
+High Texture
+High Model
+High VFX
+High Audio
+```
+
+---
+
+# 16. RESOURCE QUALITY LEVEL
+
+Resource có thể được chia:
+
+```text
+Quality
+├── Low
+├── Medium
+├── High
+└── Ultra
+```
+
+Không bắt buộc mọi loại asset đều phải có đầy đủ 4 mức.
+
+Có thể tùy asset.
+
+Ví dụ:
+
+```text
+Weapon_A
+├── Default
+├── High
+└── Ultra
+```
+
+hoặc:
+
+```text
+VFX_A
+├── Default
+└── High
+```
+
+---
+
+# 17. PUBG-LIKE RESOURCE BEHAVIOR
+
+Cần áp dụng nguyên tắc tương tự cách PUBG xử lý resource theo nhu cầu người dùng:
+
+> **Người chơi có thể sở hữu một vật phẩm nhưng không nhất thiết phải tải resource chất lượng cao của vật phẩm đó.**
+
+Ví dụ:
+
+Người chơi sở hữu:
+
+```text
+Sword_A
+```
+
+Nhưng không muốn tải texture High.
+
+Trạng thái:
+
+```text
+Ownership
+└── Sword_A = OWNED
+
+Resource
+├── Sword_A_Default = INSTALLED
+└── Sword_A_High = NOT_INSTALLED
+```
+
+Game vẫn phải hiển thị:
+
+```text
+Sword_A
+    ↓
+Default Model
+Default Texture
+Default Material
+Default VFX
+```
+
+Không được xem việc thiếu High Resource là lỗi.
+
+---
+
+# 18. ON-DEMAND DOWNLOAD FROM ITEM
+
+Nếu người chơi nhấn vào một Item/Weapon/Character và muốn chất lượng cao hơn:
+
+```text
+Item
+ ↓
+View Details
+ ↓
+High Quality Resource Available
+ ↓
+Download
+ ↓
+Verify
+ ↓
+Install
+ ↓
+Activate
+```
+
+Chỉ resource được yêu cầu mới được tải.
+
+Ví dụ:
+
+Người chơi sở hữu 100 weapons:
+
+```text
+Weapon 001 → Default
+Weapon 002 → Default
+Weapon 003 → Default
+...
+Weapon 037 → High
+...
+Weapon 100 → Default
+```
+
+Không được tự động tải High Resource của cả 100 weapons.
+
+---
+
+# 19. OWNERSHIP ≠ DOWNLOAD
+
+Đây là nguyên tắc **CỰC KỲ QUAN TRỌNG**.
+
+Tuyệt đối không được thiết kế:
+
+```text
+Downloaded == Owned
+```
+
+Hoặc:
+
+```text
+Installed Resource == Player Ownership
+```
+
+Hai khái niệm phải độc lập.
+
+Phải tồn tại:
+
+```text
+Ownership Layer
+```
+
+và:
+
+```text
+Resource Layer
+```
+
+Ví dụ:
+
+```text
+Player
+│
+├── Ownership
+│   └── Sword_A = OWNED
+│
+└── Resources
+    ├── Sword_A_Default = INSTALLED
+    └── Sword_A_High = NOT_INSTALLED
+```
+
+Người chơi **có Sword_A**, nhưng không tải High Resource.
+
+Điều đó hoàn toàn hợp lệ.
+
+---
+
+# 20. RESOURCE ≠ CONTENT OWNERSHIP
+
+Đây cũng là yêu cầu bắt buộc.
+
+Việc người dùng tải:
+
+* Weapon Package
+* Character Package
+* Armor Package
+* Texture Package
+* VFX Package
+* Audio Package
+* High Quality Package
+* Ultra Quality Package
+
+**KHÔNG có nghĩa người dùng sở hữu tất cả nội dung nằm trong package đó.**
+
+Package chỉ là:
+
+> **Phương tiện phân phối tài nguyên cần thiết để game có khả năng hiển thị/vận hành nội dung.**
+
+Không phải:
+
+> Giấy chứng nhận quyền sở hữu nội dung.
+
+Ví dụ:
+
+```text
+Package:
+Weapon_Default_High
+```
+
+có thể chứa resource của nhiều weapons.
+
+Người chơi tải package này:
+
+```text
+Resource:
+    INSTALLED
+```
+
+nhưng:
+
+```text
+Ownership:
+    Sword_A = OWNED
+    Sword_B = LOCKED
+    Sword_C = LOCKED
+    Sword_D = LOCKED
+```
+
+Không được tự động unlock Sword_B/C/D.
+
+---
+
+# 21. OWNED BUT NOT DOWNLOADED
+
+Phải hỗ trợ trường hợp:
+
+```text
+Ownership:
+Sword_A = OWNED
+
+Resource:
+Sword_A_High = NOT_INSTALLED
+```
+
+Khi người chơi muốn sử dụng quality resource đó:
+
+```text
+Owned
+   ↓
+Resource Missing
+   ↓
+Request Download
+   ↓
+Download
+   ↓
+Verify
+   ↓
+Install
+   ↓
+Use
+```
+
+---
+
+# 22. DOWNLOADED BUT NOT OWNED
+
+Phải hỗ trợ trường hợp ngược lại:
+
+```text
+Resource:
+Sword_B_High = INSTALLED
+
+Ownership:
+Sword_B = LOCKED
+```
+
+Game vẫn có resource Sword_B trên thiết bị.
+
+Nhưng:
+
+```text
+CanUse(Sword_B)
+    ↓
+Ownership = LOCKED
+    ↓
+REJECT
+```
+
+Resource có trên thiết bị **không cấp quyền sử dụng**.
+
+---
+
+# 23. RESOURCE STATES
+
+Resource Manager phải có trạng thái rõ ràng:
+
+```text
+Resource
+├── NOT_INSTALLED
+├── QUEUED
+├── DOWNLOADING
+├── VERIFYING
+├── INSTALLED
+├── ACTIVE
+├── OUTDATED
+├── FAILED
+└── MARKED_FOR_DELETE
+```
+
+Không được dùng trạng thái mơ hồ.
+
+---
+
+# 24. OWNERSHIP STATES
+
+Ownership phải độc lập:
+
+```text
+Ownership
+├── LOCKED
+├── UNLOCKED
+└── OWNED
+```
+
+Tùy gameplay có thể mở rộng thêm state nếu thực sự cần.
+
+---
+
+# 25. RESOURCE MANIFEST
+
+Resource Distribution phải có Manifest.
+
+Manifest cần có khả năng mô tả:
+
+* Package ID
+* Resource ID
+* Version
+* Size
+* Hash
+* Dependencies
+* Quality Level
+* Platform
+* Compatibility
+* Download Location
+* Required/Optional
+* Default/On-Demand
+* Package Relationships
+
+Ví dụ logic:
+
+```text
+Sword_A_High
+│
+├── Package: weapon_high_01
+├── Version: x.x.x
+├── Quality: HIGH
+├── Size: ...
+├── Hash: ...
+├── Dependencies:
+│   ├── Sword_A_Core
+│   └── Shader_Common
+└── Optional: TRUE
+```
+
+---
+
+# 26. RESOURCE CACHE
+
+Downloaded resources phải được quản lý bởi Cache System.
+
+Cache phải hỗ trợ:
+
+* Install
+* Activate
+* Deactivate
+* Validate
+* Update
+* Remove
+* Re-download
+* Storage Calculation
+
+Khi người dùng xóa High Resource:
+
+```text
+Delete Resource Cache
+```
+
+Không được xóa:
+
+```text
+Player Ownership
+Player Progression
+Item Definition
+Save Data
+```
+
+Ví dụ:
+
+```text
+Sword_A
+Ownership = OWNED
+High Resource = DELETED
+```
+
+Điều này hoàn toàn hợp lệ.
+
+Nếu người dùng muốn lại:
+
+```text
+Sword_A
+    ↓
+High Resource Missing
+    ↓
+Download Again
+```
+
+---
+
+# 27. STORAGE MANAGEMENT
+
+Game phải cho người dùng biết dung lượng resource đang sử dụng.
+
+Ví dụ:
+
+```text
+Storage
+
+Core                  2.1 GB
+Default Assets        4.7 GB
+High Textures         8.3 GB
+High VFX              1.2 GB
+High Audio            3.5 GB
+Ultra Resources       0 GB
+--------------------------------
+Total                19.8 GB
+```
+
+Người dùng có thể:
+
+* Xem dung lượng
+* Chọn resource
+* Xóa resource optional
+* Tải lại resource
+* Chuyển Quality Resource
+* Quản lý dung lượng
+
+Việc xóa Optional Resource không được làm mất ownership.
+
+---
+
+# 28. RESOURCE PRIORITY
+
+Resource system phải ưu tiên:
+
+```text
+Default Resource
+```
+
+để đảm bảo game luôn có fallback hợp lệ.
+
+Nếu High Resource không tồn tại:
+
+```text
+High Missing
+    ↓
+Fallback
+    ↓
+Default Resource
+```
+
+Không được tạo:
+
+* Empty Placeholder
+* Fake Asset
+* Resource giả
+* Node rỗng để giữ chỗ
+
+Default Resource phải là resource thật do developer cung cấp.
+
+---
+
+# 29. GRAPHICS OPTIMIZATION SETTINGS
+
+Game phải có **Optimization Settings** cho người chơi lựa chọn.
+
+Không được suy luận:
+
+> Compatibility / OpenGL 3.0 = bắt buộc đồ họa thấp.
+
+Renderer chỉ là giới hạn nền tảng/API.
+
+Trong phạm vi phần cứng hỗ trợ, người chơi phải được quyền lựa chọn mức đồ họa phù hợp.
+
+---
+
+# 30. GRAPHICS SETTINGS
+
+Phải có hệ thống tương tự cách game mobile hiện đại cho người chơi lựa chọn.
+
+Ví dụ:
+
+```text
+Graphics
+├── Quality Preset
+│   ├── Very Low
+│   ├── Low
+│   ├── Medium
+│   ├── High
+│   └── Ultra
+│
+├── FPS
+│   ├── 30
+│   ├── 45
+│   ├── 60
+│   ├── 90
+│   └── 120
+│
+├── Resolution Scale
+├── Texture Quality
+├── Model Quality
+├── VFX Quality
+├── Shadow Quality
+├── Particle Density
+├── Environment Quality
+├── View Distance
+├── LOD Distance
+├── Anti-Aliasing
+├── Ambient Occlusion
+├── Reflection Quality
+├── Post Processing
+├── Bloom
+├── Volumetric Effects
+└── Dynamic Resolution
+```
+
+Các setting phải được áp dụng thực tế vào rendering/gameplay systems.
+
+Không được tạo setting chỉ để hiển thị UI nhưng không có tác dụng.
+
+---
+
+# 31. PERFORMANCE PROFILE
+
+Game nên có khả năng kiểm tra hardware/performance của thiết bị.
+
+```text
+Hardware Detection
+        ↓
+Performance Analysis
+        ↓
+Recommended Profile
+```
+
+Ví dụ:
+
+```text
+Low Device
+├── FPS: 30
+├── Texture: Medium
+├── VFX: Low
+├── Shadow: Low
+└── View Distance: Low
+```
+
+Thiết bị mạnh:
+
+```text
+High Device
+├── FPS: 60/90/120
+├── Texture: High/Ultra
+├── VFX: High/Ultra
+├── Shadow: High
+└── View Distance: High
+```
+
+Nhưng:
+
+> **Recommended Settings chỉ là đề xuất. Người chơi vẫn có quyền thay đổi thủ công.**
+
+---
+
+# 32. MOBILE FIRST
+
+Mobile là platform ưu tiên số 1.
+
+Mọi hệ thống phải cân nhắc:
+
+* RAM
+* VRAM
+* GPU
+* CPU
+* Storage
+* Battery
+* Thermal Throttling
+* Download Size
+* Installation Size
+* Runtime Memory
+* Asset Streaming
+* VFX Cost
+* Texture Memory
+* Draw Calls
+* Shader Complexity
+
+Không được chỉ tối ưu cho PC rồi ép Mobile chạy theo.
+
+PC/Desktop chỉ là platform mở rộng.
+
+---
+
+# 33. VISUAL QUALITY ≠ PERFORMANCE NEGLECT
+
+Không được dùng lý do:
+
+> Mobile First / Compatibility / OpenGL 3.0
+
+để làm game mặc định xấu.
+
+Mục tiêu:
+
+```text
+Performance Scaling
+        +
+Visual Quality Scaling
+        =
+Player Choice
+```
+
+Thiết bị mạnh có thể sử dụng:
+
+* Texture chất lượng cao
+* VFX chất lượng cao
+* Shadow tốt hơn
+* Anti-Aliasing tốt hơn
+* FPS cao hơn
+* View Distance cao hơn
+
+Thiết bị yếu có thể giảm các thành phần tương ứng.
+
+---
+
+# 34. ARCHITECTURAL PRINCIPLE
+
+Các hệ thống phải modular.
+
+Không được hard-code phụ thuộc chéo vô tổ chức.
+
+Các hệ thống cần có khả năng:
+
+* Independent
+* Replaceable
+* Extensible
+* Maintainable
+* Testable
+
+Ví dụ:
+
+```text
+Client
+│
+├── Core
+├── Services
+├── Data
+├── Resource
+├── Models
+├── VFX
+├── Audio
+├── Gameplay
+├── Character
+├── Equipment
+├── Inventory
+├── Progression
+└── Configuration
+```
+
+Các module phải giao tiếp thông qua interface/contract rõ ràng khi cần.
+
+---
+
+# 35. CRITICAL SEPARATION
+
+Phải giữ các hệ thống sau độc lập:
+
+```text
+Game Update
+        ≠
+Resource Download
+
+Resource Download
+        ≠
+Ownership
+
+Ownership
+        ≠
+Progression
+
+Progression
+        ≠
+Resource Installation
+
+Resource Installation
+        ≠
+Resource Quality
+
+Resource Quality
+        ≠
+Graphics Settings
+```
+
+Ví dụ:
+
+```text
+Player owns Sword_A
+```
+
+không có nghĩa:
+
+```text
+Sword_A High Texture must be downloaded
+```
+
+Và:
+
+```text
+Sword_A High Texture downloaded
+```
+
+không có nghĩa:
+
+```text
+Player owns Sword_A
+```
+
+---
+
+# 36. COMPLETE CONTENT FLOW
+
+Luồng tổng thể phải có thể hoạt động như sau:
+
+```text
+                    GAME
+                      │
+          ┌───────────┴───────────┐
+          │                       │
+       UPDATE                  CONTENT
+          │                       │
+     Version Check          Resource Manager
+          │                       │
+      GitHub/Host             Manifest
+          │                       │
+       Download               Package
+          │                       │
+       Verify                  Cache
+          │                       │
+        Apply                  Resource
+                                  │
+                     ┌────────────┴────────────┐
+                     │                         │
+                  Default                  Optional
+                     │                         │
+                  Installed               On-Demand
+                                               │
+                                        User Requests
+                                               │
+                                           Download
+```
+
+Ownership nằm độc lập:
+
+```text
+                    PLAYER DATA
+                        │
+                  Ownership
+                        │
+              ┌─────────┴─────────┐
+              │                   │
+            Owned               Locked
+              │
+          Can Use
+              │
+       Resource Available?
+          │           │
+         YES          NO
+          │           │
+       Activate    Download
+```
+
+---
+
+# 37. NO FAKE / NO PLACEHOLDER
+
+TUYỆT ĐỐI KHÔNG:
+
+* Tạo cấu trúc rỗng
+* Tạo node rỗng để giữ chỗ
+* Tạo placeholder architecture
+* Tạo Fake Resource
+* Tạo Fake Service
+* Tạo Fake Manager
+* Tạo Fake Package
+* Tạo hệ thống chỉ có tên nhưng không có logic
+* Tạo setting không hoạt động
+* Tạo resource giả để che lỗi
+
+Mọi thành phần được tạo ra phải có mục đích thực tế và implementation tương ứng.
+
+Nếu chưa cần một thành phần thì **không tạo nó chỉ để làm đẹp cấu trúc**.
+
+---
+
+# 38. IMPLEMENTATION PRINCIPLE
+
+Khi triển khai project:
+
+1. Xác định kiến trúc.
+2. Hoàn thiện từng hệ thống.
+3. Cấu hình đầy đủ.
+4. Implement logic thực tế.
+5. Kiểm tra dependency.
+6. Test.
+7. Sau khi hoàn thiện mới tích hợp với hệ thống tiếp theo.
+
+Không được tạo hàng loạt thư mục/node/script rỗng rồi để đó.
+
+Không được tạo trước một “bộ khung khổng lồ” nhưng không có implementation.
+
+---
+
+# 39. SINGLE PLAYER PRINCIPLE
+
+Không được tự ý đưa vào:
+
+* Dedicated Server
+* Matchmaking Server
+* Lobby Server
+* Multiplayer Replication
+* Server Authority
+* Network Synchronization
+* Player-to-player networking
+
+trừ khi sau này có yêu cầu rõ ràng.
+
+Internet chỉ là:
+
+```text
+Update
++
+Resource Distribution
++
+Optional Online Services nếu sau này thực sự cần
+```
+
+Gameplay cốt lõi phải là Single Player.
+
+---
+
+# 40. FINAL DESIGN PHILOSOPHY
+
+Game phải hướng tới:
+
+> **Một ARPG Third-Person Single Player Mobile-First được xây dựng hoàn toàn bằng Godot Engine v4.7.1 Stable Official a13da4feb + GDScript + BlockBench.**
+
+Phong cách:
+
+> **Honkai Impact-inspired combat presentation + Minecraft-inspired visual language + detailed humanoid anatomy + modular equipment + high-quality VFX/SFX/BGM.**
+
+Về resource:
+
+> **Người chơi không bị ép tải toàn bộ tài nguyên chất lượng cao. Game cung cấp Default Resources đủ để chơi, còn High/Ultra Resources được tải theo nhu cầu.**
+
+Về ownership:
+
+> **Resource được tải không đồng nghĩa người chơi sở hữu nội dung. Ownership và Resource Distribution phải hoàn toàn độc lập.**
+
+Về update:
+
+> **Game tự kiểm tra và tải phiên bản mới khi có update. Resource packages được người dùng chủ động lựa chọn tải.**
+
+Về dung lượng:
+
+> **Người chơi có quyền quyết định thiết bị của họ chứa những resource chất lượng nào.**
+
+Về gameplay:
+
+> **Không Multiplayer, không Game Server, không phụ thuộc Internet. Single Player phải hoạt động offline.**
+
+Về optimization:
+
+> **Compatibility/OpenGL 3.0 không phải lý do để khóa game ở chất lượng thấp. Game phải cung cấp hệ thống Graphics/Optimization Settings để người chơi tự cân bằng giữa chất lượng hình ảnh, FPS và dung lượng theo khả năng thiết bị.**
+
+Về kiến trúc:
+
+> **Modular, scalable, maintainable, real implementation, không fake, không placeholder, không node rỗng, không cấu trúc được tạo chỉ để giữ chỗ.**
+
+---
+
+# CORE RULE
+
+## **OWNERSHIP IS NOT DOWNLOAD.**
+
+## **DOWNLOAD IS NOT OWNERSHIP.**
+
+## **GAME UPDATE IS NOT RESOURCE DOWNLOAD.**
+
+## **DEFAULT RESOURCE IS THE FALLBACK.**
+
+## **HIGH/ULTRA RESOURCE IS OPTIONAL AND ON-DEMAND.**
+
+## **SINGLE PLAYER GAMEPLAY MUST WORK OFFLINE.**
+
+## **MOBILE FIRST DOES NOT MEAN LOW QUALITY BY DEFAULT.**
+
+## **EVERY SYSTEM MUST HAVE REAL FUNCTIONAL IMPLEMENTATION.**
+ 
